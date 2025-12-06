@@ -1,0 +1,22 @@
+
+.icon {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  overflow: hidden;
+  padding: 5px;
+  border-radius: 50%;
+
+}
+
+.sign {
+  background: #fff;
+}
+
+.poop {
+  background: #63D471;
+}
+
+.icon img {
+  width: 100%;
+}
