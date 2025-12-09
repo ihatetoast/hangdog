@@ -61,3 +61,77 @@ margin-bottom: 0.5rem;
 
 
 
+.gameover-content {
+  padding: 1rem 2rem;
+  position: relative;
+}
+
+
+.bone-btn {
+position: absolute;
+    width: 190px;
+    height: 140px;
+    right: 55px;
+    bottom: -190px;
+  background: transparent;
+  border: none;
+}
+
+.bone-btn:hover {
+  cursor: pointer;
+}
+
+.bone-nubbin-1, .bone-nubbin-2, .bone-nubbin-3, .bone-nubbin-4{
+  background:#fff;
+  height: 70px;
+  width: 70px;
+  border: 5px solid #4d4d4d;
+  border-radius: 50%;
+  position:absolute;
+}
+
+.bone-nubbin-1{
+  left: 0;
+  top: 0;
+}
+
+.bone-nubbin-2{
+  right: 0;
+  top: 0;
+}
+
+.bone-nubbin-3{
+  top: 64px;
+}
+
+.bone-nubbin-4{
+  right: 0;
+  top:64px;
+}
+
+.bone-center {
+  background: #fff;
+  height: 95px;
+  width: 61px;
+  border-top: 5px solid #4d4d4d;
+  border-bottom: 5px solid #4d4d4d;
+  position: absolute;
+  left: 65px;
+  top: 23px;
+  border-width: 5px 0 5px;
+}
+
+/* the text and also wider to hide the border of the bone nubbins */
+.bone-text {
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #4d4d4d;
+  font-weight: 700;
+  width: 118px;
+  height: 100%;
+  position: absolute;
+  left: -29px;
+  font-size: 1rem;
+}
