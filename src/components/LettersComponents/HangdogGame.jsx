@@ -6,8 +6,7 @@ import Key from './Key'
 import styles from './HangdogGame.module.css';
 
 // for keyboard, an array of arrays
-// may need to make one array and split at p, l, and m for validation. 
-const QUERTY_WITH_DIACRITICALS = [
+const QWERTY_WITH_DIACRITICALS = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
   ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
@@ -17,14 +16,13 @@ const HangdogGame = ({breedName, getMissedLetter, getWordSolved}) => {
   const [usedLetters, setUsedLetters] = useState([])
   const [goodGuesses, setGoodGuesses] = useState([])
 
-
   // create game spaces and include spaces and dashes of original breed name
   const gameSpaces = () => {
     return breedName.split('').map((letter, idx) => {
       if(letter === " ") {
-        return <span key={`blank-${idx}`} className={styles.blank}>{" "}</span>;
+        return <span key={`space-${idx}`} className={styles.blank}>{" "}</span>;
       } else if (letter === "-") {
-        return <span key={`blank-${idx}`} className={styles.blank}>{"-"}</span>;
+        return <span key={`hyphen-${idx}`} className={styles.blank}>{"-"}</span>;
       } else {
         return  <span key={`letter-${idx}`} className={styles.letter}>{goodGuesses.includes(letter) ? letter : " ? "}</span>;
       }
@@ -46,19 +44,14 @@ const HangdogGame = ({breedName, getMissedLetter, getWordSolved}) => {
     })
 
   }
- 
 
 
 useEffect(()=>{
   const gameLettersOnly = breedName.replace(/[\s-]/g, "").split("");
-  const uniqueLetters = [...new Set(gameLettersOnly)]; // Use to remove duplicate elements from an array
- // every letter in the unique letter arr is in the guessed letters arr
+  const uniqueLetters = [...new Set(gameLettersOnly)]; // Use Set to remove duplicate elements from an array
   const allGuessed = uniqueLetters.every(letter => goodGuesses.includes(letter))
   getWordSolved(allGuessed)
 }, [goodGuesses, breedName, getWordSolved])
-
-
-
 
 
   return (
@@ -67,7 +60,7 @@ useEffect(()=>{
         {gameSpaces()}
       </div> 
       <div>
-        {QUERTY_WITH_DIACRITICALS.map((row, rowIdx) => (
+        {QWERTY_WITH_DIACRITICALS.map((row, rowIdx) => (
           <div className={styles.keyrow} key={rowIdx}>
             {row.map(letter => <Key key={letter} letter={letter} onKeyClick={handleKeyClick} isDisabled={usedLetters.includes(letter)}>{letter}</Key>)}
           </div>

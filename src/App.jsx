@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState, useCallback, useEffect, useRef} from 'react'
 
 import ScoreBoard from './components/ScoreComponents/ScoreBoard'
 import HangdogGame from './components/LettersComponents/HangdogGame';
@@ -20,8 +20,9 @@ function App() {
   const [randomDogFacts, setRandomDogFacts] = useState([]);
   const [error, setError]= useState(null);
 
+  const breedRef = useRef(breed);
+
 const getBreed = () => {
-  setIsLoading(true);
   const randoIdx = Math.floor(Math.random() * breedData.length);
   return (breedData[randoIdx]);
 }
@@ -31,16 +32,20 @@ const handleMissedLetter =(missedLetter)=> {
   return [missedLetter, ...prevMissedLetters]})
 }
 
-const handleWordSolved = (wordSolved)=>{
+const handleWordSolved = useCallback((wordSolved)=>{
   setWordGuessed(wordSolved)
-}
+}, [])
 
-// todo: now fetch the facts. todo!
 const determineEndOfGame =()=>{
   if(missedLetters.length === 6 || wordGuessed) {
     setGameIsOver(true)
   }
 }
+
+// handle the breed.id dependency in the use effect
+useEffect(() => {
+  breedRef.current = breed;
+}, [breed]);
 
 
 // get the breed info from api if there's an id or extraInfo otherwise. 
@@ -66,31 +71,54 @@ useEffect(() =>{
     fetchDogData();
   } else {
     setBreedAttribute(breed.extraInfo);
-     setIsLoading(false);
+    setIsLoading(false);
   }
 }, [breed])
 
 useEffect(() =>{
   // check for game over
-  determineEndOfGame();// c
+  determineEndOfGame();// 
   
 },[missedLetters, wordGuessed])
 
+useEffect(() =>{
+  // when game is over, get some trivia
+  if (!gameIsOver) return;
+  // dog api has more info coming in, so they'll get just 2 facts
+  // the dogs with no id have breed info that is very short, so they will get 5.
+  setIsLoading(true);
+  
+  const fetchDogTrivia = async () => {
+    try {
+      const response = await fetch(`${API_URL}/facts?limit=${breed.id ? 2 : 5}`);
+      if(!response.ok){
+        throw new Error (`HTTP error! Status: ${response.status}`)
+      }
+      const result = await response.json();
+      setRandomDogFacts(result.data.map(triv => triv.attributes.body));
+    }
+    catch(err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  fetchDogTrivia();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+},[gameIsOver])
 
 // reset after loss 
 const resetGame = () =>{
-  setIsLoading(true);
   setBreed(getBreed())
   setMissedLetters([]);
+  setRandomDogFacts([]);
+  setBreedAttribute('');
   setWordGuessed(false);
   setGameIsOver(false);
-  setIsLoading(false);
+  setError(null);
 }
 
-
-// remove after testing.
-console.log("TESTING: WORD TO GUESS IS ", breed.name);
-
+// bone-shaped button (shaped via css)
 const boneButton = <button onClick={resetGame} className="bone-btn">
     <div className="bone-nubbin-1"></div>
     <div className="bone-nubbin-2"></div>
@@ -100,19 +128,28 @@ const boneButton = <button onClick={resetGame} className="bone-btn">
       <div className="bone-text">Play again!</div>
     </div>
 </button>;
-// <button  onClick={resetGame}>Let's play another, Champ!</button>
+
 
 const losingContent = <p>Oh no, look at you. You've got too much poo on the bottom of your shoe! The word was {breed.name}. {breed.id ? breedAttribute : breed.extraInfo}</p>;
 // for winning content, get the info from the api about the breed (has breed.id); otherwise, use the extraInfo (info i found and added to the breedData.js)
-const winningContent = <><p>Ear scritches for you! You guessed <span className="breed-name">{breed.name}</span>.</p> <p>{breed.extraInfo ? breed.extraInfo : breedAttribute}</p></>;
+const winningContent = <><p>Ear scritches for you! You guessed <span className="breed-name">{breed.name}</span>.</p> <p>{breed.extraInfo || breedAttribute || "Getting breed info ..."}</p></>;
+
+
+// 2 or 5 facts dep on the origin of the game dog (api or my own)
+const endOfGameDogTriviaContent = <div className="gameover-trivia">
+  <p>Did you know ...</p>
+  <ul>{randomDogFacts.map((rdf, idx) => <li key={`rdf-${idx}`}>{rdf}</li>)}
+    </ul></div>
+
 
 const endOfGameTextContent = <div className="gameover-content">
   {gameIsOver && !wordGuessed && losingContent}
   {gameIsOver && wordGuessed && winningContent}
+  {endOfGameDogTriviaContent}
   {boneButton}
   </div>;
 
-const endOfGameDogTriviaContent = '';
+
   return (
     <main>
       {isLoading && <p>Hold on. Getting the leash ...</p>}
@@ -120,12 +157,10 @@ const endOfGameDogTriviaContent = '';
       {!isLoading && <>
       <section>
         {!gameIsOver && <ScoreBoard mistakes={missedLetters}/>}
-
         {gameIsOver && endOfGameTextContent}
       </section>
       <section>
         {!gameIsOver && <HangdogGame key={breed.name} breedName={ breed.name.toUpperCase()} getMissedLetter={handleMissedLetter} getWordSolved={handleWordSolved}/>}
-        {gameIsOver && endOfGameDogTriviaContent}
       </section>
       </>}
       

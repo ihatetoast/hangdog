@@ -42,7 +42,8 @@ h1 {
   margin: 0;
 }
 
-.game-header ul {
+.game-header ul,
+.gameover-content ul {
   list-style: none;
   padding-inline-start: 0;
 }
@@ -66,6 +67,17 @@ margin-bottom: 0.5rem;
   position: relative;
 }
 
+.gameover-trivia {
+  margin-top: 2rem;
+}
+
+.gameover-trivia p{
+  margin-bottom: 0;
+}
+
+.gameover-trivia ul {
+  margin-top: 0;
+}
 
 .bone-btn {
 position: absolute;
