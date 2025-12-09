@@ -4,7 +4,8 @@
   display: flex;
   flex-wrap: wrap; /* for long breed names*/
   gap: 0.25rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
 }
 
 .letter {

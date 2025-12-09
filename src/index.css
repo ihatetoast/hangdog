@@ -13,6 +13,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -26,6 +29,34 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+.game-header {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 2rem;
+}
+
+.game-header h1 {
+  text-align: center;
+  margin: 0;
+}
+
+.game-header ul {
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.game-header p {
+margin: 0;
+}
+
+.game-header li p:first-of-type {
+margin-bottom: 0.5rem;
+}
+
+.pos {
+  font-weight: 700;
 }
 
 
