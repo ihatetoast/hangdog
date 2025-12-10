@@ -36,11 +36,6 @@ const handleWordSolved = useCallback((wordSolved)=>{
   setWordGuessed(wordSolved)
 }, [])
 
-const determineEndOfGame =()=>{
-  if(missedLetters.length === 6 || wordGuessed) {
-    setGameIsOver(true)
-  }
-}
 
 // handle the breed.id dependency in the use effect
 useEffect(() => {
@@ -49,7 +44,6 @@ useEffect(() => {
 
 
 // get the breed info from api if there's an id or extraInfo otherwise. 
-// get this when the game starts because when the game ends, there's another api call (for facts)
 useEffect(() =>{
   setIsLoading(true);
   if(breed.id){
@@ -77,15 +71,16 @@ useEffect(() =>{
 
 useEffect(() =>{
   // check for game over
-  determineEndOfGame();// 
+    if(missedLetters.length === 6 || wordGuessed) {
+    setGameIsOver(true)
+  }
   
 },[missedLetters, wordGuessed])
 
 useEffect(() =>{
   // when game is over, get some trivia
   if (!gameIsOver) return;
-  // dog api has more info coming in, so they'll get just 2 facts
-  // the dogs with no id have breed info that is very short, so they will get 5.
+
   setIsLoading(true);
   
   const fetchDogTrivia = async () => {
@@ -141,14 +136,12 @@ const endOfGameDogTriviaContent = <div className="gameover-trivia">
   <ul>{randomDogFacts.map((rdf, idx) => <li key={`rdf-${idx}`}>{rdf}</li>)}
     </ul></div>
 
-
 const endOfGameTextContent = <div className="gameover-content">
   {gameIsOver && !wordGuessed && losingContent}
   {gameIsOver && wordGuessed && winningContent}
   {endOfGameDogTriviaContent}
   {boneButton}
   </div>;
-
 
   return (
     <main>

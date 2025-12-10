@@ -2,8 +2,6 @@ import React from 'react'
 import styles from './key.module.css'
 
 const Key = ({letter, onKeyClick, isDisabled}) => {
-  // add isDisabled prop later.
-
   return (
     <button className={styles.keypad} letter={letter} onClick={()=>onKeyClick(letter)} disabled={isDisabled}>{letter}</button>
   )
