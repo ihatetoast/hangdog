@@ -1,6 +1,5 @@
 // objs with an id are from dogapi.dog
 // those with null are mixes/crosses or breeds not included in the dogapi
-// extra info for the non dog api. They'll get one line from this and a random dog fact
 export const breedData = [
   { id: "036feed0-da8a-42c9-ab9a-57449b530b13", name: "Affenpinscher", extraInfo: null },
   { id: "dd9362cc-52e0-462d-b856-fccdcf24b140", name: "Afghan Hound", extraInfo: null },
@@ -327,5 +326,3 @@ export const breedData = [
   { id: null, name: "Galgo Español", extraInfo: "The Galgo Español is a Spanish greyhound, bred specifically for coursing hare and other game."},
   { id: null, name: "Podenco", extraInfo: "The podenco can refer to a variety of a Spanish breeds of warren hounds: podenco Andaluz, podenco Ibicenco, podeco Valenciano, or podenco Canario."}
 ];
-
-// lowchen should be löwchen and frise should be frisé. español vs espanol handle that later. 

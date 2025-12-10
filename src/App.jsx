@@ -5,7 +5,8 @@ import HangdogGame from './components/LettersComponents/HangdogGame';
 
 import {breedData} from './data/breedData'
 
-const API_URL = 'https://dogapi.dog/api/v2';
+const API_URL = import.meta.env.VITE_API_URL;
+
 function App() {
   const [breed, setBreed] = useState(() =>{
      const randoIdx = Math.floor(Math.random() * breedData.length);
@@ -36,12 +37,10 @@ const handleWordSolved = useCallback((wordSolved)=>{
   setWordGuessed(wordSolved)
 }, [])
 
-
 // handle the breed.id dependency in the use effect
 useEffect(() => {
   breedRef.current = breed;
 }, [breed]);
-
 
 // get the breed info from api if there's an id or extraInfo otherwise. 
 useEffect(() =>{
@@ -124,11 +123,9 @@ const boneButton = <button onClick={resetGame} className="bone-btn">
     </div>
 </button>;
 
-
 const losingContent = <p>Oh no, look at you. You've got too much poo on the bottom of your shoe! The word was {breed.name}. {breed.id ? breedAttribute : breed.extraInfo}</p>;
 // for winning content, get the info from the api about the breed (has breed.id); otherwise, use the extraInfo (info i found and added to the breedData.js)
 const winningContent = <><p>Ear scritches for you! You guessed <span className="breed-name">{breed.name}</span>.</p> <p>{breed.extraInfo || breedAttribute || "Getting breed info ..."}</p></>;
-
 
 // 2 or 5 facts dep on the origin of the game dog (api or my own)
 const endOfGameDogTriviaContent = <div className="gameover-trivia">

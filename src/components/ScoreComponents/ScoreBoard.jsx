@@ -1,4 +1,3 @@
-import React from 'react';
 import ScoreIcon from './ScoreIcon';
 import styles from './ScoreBoard.module.css';
 const ScoreBoard = ({ mistakes }) => {
