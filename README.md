@@ -4,6 +4,10 @@
 
 A hangman game with a dog theme, that uses the [Dog API]("https://dogapi.dog/") to get info on the breed and some random facts after the game has been played. 
 
+# Where
+
+[Hangdog](http://www.ihatetoast.com/hangdog/)
+
 # Why
 
 I wanted to work with the Fetch API but not bore myself with a generic free API. Hangman is a fun game to redo and experiment with new tools or logic. I also wanted to have more fun with the CSS and create typewriter keys and have a bone-shaped button. I also find that making smaller React apps is better for focusing on React than making some enormous app. I guess that's the way I learned German: did smaller exercises before I read Goethe and Tieck. It's doing the focused exercises that helped me understand the larger picture. 
