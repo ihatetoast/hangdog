@@ -34,7 +34,10 @@ h1 {
 .game-header {
   display: flex;
   flex-direction: column;
-  padding: 1rem 2rem;
+  padding: 1rem;
+  margin: 0 auto;
+  width: 90%;
+  max-width: 1000px;
 }
 
 .game-header h1 {
@@ -46,6 +49,10 @@ h1 {
 .gameover-content ul {
   list-style: none;
   padding-inline-start: 0;
+}
+
+.game-header ul {
+  margin-bottom: 0;
 }
 
 .game-header p {

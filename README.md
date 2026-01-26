@@ -2,7 +2,7 @@
 
 # What
 
-A hangman game with a dog theme, that uses the [Dog API]("https://dogapi.dog/") to get info on the breed and some random facts after the game has been played. 
+A hangman game with a dog theme, that uses the [Dog API](https://dogapi.dog/) to get info on the breed and some random facts after the game has been played. 
 
 # Where
 

@@ -18,15 +18,19 @@ const HangdogGame = ({breedName, getMissedLetter, getWordSolved}) => {
 
   // create game spaces and include spaces and dashes of original breed name
   const gameSpaces = () => {
-    return breedName.split('').map((letter, idx) => {
-      if(letter === " ") {
-        return <span key={`space-${idx}`} className={styles.blank}>{" "}</span>;
-      } else if (letter === "-") {
-        return <span key={`hyphen-${idx}`} className={styles.blank}>{"-"}</span>;
-      } else {
-        return  <span key={`letter-${idx}`} className={styles.letter}>{goodGuesses.includes(letter) ? letter : " ? "}</span>;
-      }
-    })
+    const words = breedName.split(' ');
+
+    return words.map((word, wordIdx) =>(
+      <div key={`word-${wordIdx}`} className={styles.word}>
+        {word.split('').map((letter, letterIdx) => {
+          if(letter === '-') {
+            return <span key={`hyphen-${letterIdx}`} className={styles.blank}>{"-"}</span>; 
+          } else {
+            return  <span key={`letter-${letterIdx}`} className={styles.letter}>{goodGuesses.includes(letter) ? letter : " ? "}</span>;
+          }
+        })}
+      </div>
+    ))
   }
 
 
@@ -78,7 +82,7 @@ useEffect(() =>{
       <div className={styles["game-tiles"]}>
         {gameSpaces()}
       </div> 
-      <div>
+      <div className={styles.typewriter}>
         {QWERTY_WITH_DIACRITICALS.map((row, rowIdx) => (
           <div className={styles.keyrow} key={rowIdx}>
             {row.map(letter => <Key 
